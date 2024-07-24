@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Was ist das?</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+        #quiz {
+            margin-top: 50px;
+        }
+        img {
+            max-width: 300px;
+            height: auto;
+        }
+        .button {
+            display: block;
+            width: 200px;
+            padding: 10px;
+            margin: 10px auto;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .button:hover {
+            background-color: #45a049;
+        }
+        #message {
+            color: red;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Was ist das?</h1>
+    <div id="quiz">
+        <img id="image" src="" alt="Obst oder Gemüse">
+        <div id="buttons"></div>
+        <p id="message"></p>
+    </div>
+
+    <script>
+        const questions = [
+            {
+                image: "apfel.jfif", // Lokales Bild des Apfels
+                options: ["Apfel", "Banane", "Karotte"],
+                correct: "Apfel"
+            },
+            {
+                image: "banane.jfif", // Lokales Bild der Banane
+                options: ["Apfel", "Banane", "Tomate"],
+                correct: "Banane"
+            },
+            {
+                image: "karotte.jfif", // Lokales Bild der Karotte
+                options: ["Zitrone", "Kartoffel", "Karotte"],
+                correct: "Karotte"
+            }
+        ];
+
+        let currentQuestion = 0;
+
+        function loadQuestion() {
+            const question = questions[currentQuestion];
+            document.getElementById('image').src = question.image;
+            const buttonsDiv = document.getElementById('buttons');
+            buttonsDiv.innerHTML = '';
+
+            question.options.forEach(option => {
+                const button = document.createElement('button');
+                button.innerText = option;
+                button.classList.add('button');
+                button.onclick = () => checkAnswer(option);
+                buttonsDiv.appendChild(button);
+            });
+        }
+
+        function checkAnswer(selected) {
+            const question = questions[currentQuestion];
+            const message = document.getElementById('message');
+
+            if (selected === question.correct) {
+                message.innerText = '';
+                currentQuestion++;
+                if (currentQuestion < questions.length) {
+                    loadQuestion();
+                } else {
+                    document.getElementById('quiz').innerHTML = '<h2>Glückwunsch! Du hast alle Fragen richtig beantwortet!</h2>';
+                }
+            } else {
+                message.innerText = 'Versuche es noch einmal';
+            }
+        }
+
+        loadQuestion();
+    </script>
+
+</body>
+</html>
